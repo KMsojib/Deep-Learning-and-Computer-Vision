@@ -1,0 +1,7 @@
+Course: https://cs231n.stanford.edu/
+https://cs231n.github.io/classification/
+
+Notes : https://cs231n.github.io/
+https://online.stanford.edu/courses/math51-linear-algebra-multivariable-calculus-and-modern-applications
+
+course overview: https://cs231n.stanford.edu/schedule.html
