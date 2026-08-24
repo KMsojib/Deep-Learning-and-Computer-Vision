@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning Resources — Medical Image & Crop Research</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inconsolata:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #f5f0e8;
+  --cream2: #ede6d6;
+  --ink: #1a1208;
+  --ink2: #3d2e14;
+  --muted: #8a7355;
+  --rule: rgba(26,18,8,0.12);
+  --green: #1a6b3a;
+  --green-light: #e8f4ed;
+  --amber: #b85c00;
+  --amber-light: #fdf0e0;
+  --blue: #1a3d6b;
+  --blue-light: #e5ecf7;
+  --rose: #8b1a2f;
+  --rose-light: #fbe8ec;
+  --purple: #4a1a6b;
+  --purple-light: #f0e8f7;
+  --teal: #0d5c5c;
+  --teal-light: #e5f4f4;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Lora', serif;
+  min-height: 100vh;
+}
+
+/* paper texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px 100px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── HEADER ── */
+header {
+  padding: 64px 0 48px;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 0;
+}
+
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.eyebrow {
+  font-family: 'Inconsolata', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  color: var(--ink);
+  max-width: 700px;
+}
+
+h1 em {
+  font-style: italic;
+  font-family: 'Lora', serif;
+  font-weight: 400;
+  color: var(--green);
+}
+
+.header-meta {
+  text-align: right;
+}
+
+.total-resources {
+  font-family: 'Syne', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.total-label {
+  font-family: 'Inconsolata', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.header-desc {
+  margin-top: 24px;
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 680px;
+  font-style: italic;
+}
+
+/* ── PROGRESS TRACKER ── */
+.progress-bar-wrap {
+  background: var(--cream2);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 20px 28px;
+  margin: 32px 0;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.progress-label {
+  font-family: 'Inconsolata', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.progress-track {
+  flex: 1;
+  min-width: 200px;
+  height: 8px;
+  background: var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--green), var(--teal));
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.progress-count {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* ── FILTER BAR ── */
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 40px;
+}
+
+.filter-btn {
+  font-family: 'Inconsolata', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border: 1.5px solid var(--rule);
+  background: transparent;
+  color: var(--muted);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filter-btn:hover { border-color: var(--ink); color: var(--ink); }
+.filter-btn.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+/* ── PHASE BLOCKS ── */
+.phase-block {
+  margin-bottom: 56px;
+}
+
+.phase-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.phase-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--rule);
+  line-height: 1;
+  user-select: none;
+}
+
+.phase-info {}
+
+.phase-tag {
+  font-family: 'Inconsolata', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.phase-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.phase-duration {
+  font-family: 'Inconsolata', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: right;
+  line-height: 1.5;
+}
+
+/* ── TOPIC SECTION ── */
+.topic-section {
+  margin-bottom: 36px;
+}
+
+.topic-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.topic-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.topic-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.topic-count {
+  font-family: 'Inconsolata', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: auto;
+  letter-spacing: 1px;
+}
+
+/* ── RESOURCE TABLE ── */
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1.5px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.resource-table thead tr {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.resource-table thead th {
+  font-family: 'Inconsolata', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  text-align: left;
+}
+
+.resource-table tbody tr {
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.12s;
+}
+
+.resource-table tbody tr:last-child { border-bottom: none; }
+.resource-table tbody tr:hover { background: rgba(26,18,8,0.03); }
+
+.resource-table tbody tr.done {
+  opacity: 0.5;
+}
+
+.resource-table tbody tr.done .res-title {
+  text-decoration: line-through;
+}
+
+.resource-table td {
+  padding: 13px 16px;
+  vertical-align: top;
+}
+
+.col-check { width: 44px; text-align: center; }
+.col-step { width: 48px; }
+.col-title { min-width: 220px; }
+.col-type { width: 110px; }
+.col-time { width: 90px; }
+.col-why { }
+.col-link { width: 100px; text-align: center; }
+
+/* Step number */
+.step-num {
+  font-family: 'Inconsolata', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Title */
+.res-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 3px;
+}
+
+.res-author {
+  font-family: 'Inconsolata', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Type badge */
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Inconsolata', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+/* Time */
+.time-est {
+  font-family: 'Inconsolata', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Why */
+.res-why {
+  font-size: 0.83rem;
+  color: var(--ink2);
+  line-height: 1.6;
+  font-family: 'Lora', serif;
+}
+
+/* Link */
+.res-link {
+  display: inline-block;
+  font-family: 'Inconsolata', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1.5px solid var(--rule);
+  border-radius: 2px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.res-link:hover {
+  background: var(--ink);
+  color: var(--cream);
+  border-color: var(--ink);
+}
+
+/* Checkbox */
+.check-box {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--rule);
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  transition: all 0.12s;
+  flex-shrink: 0;
+}
+
+.check-box:hover { border-color: var(--green); }
+.check-box.checked { background: var(--green); border-color: var(--green); }
+.check-box.checked::after { content: '✓'; color: white; font-size: 11px; font-weight: 700; }
+
+/* ── NOTE BOXES ── */
+.note-box {
+  display: flex;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 3px;
+  margin-bottom: 14px;
+  margin-top: 8px;
+}
+
+.note-icon { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+
+.note-text {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  font-family: 'Lora', serif;
+  font-style: italic;
+}
+
+/* ── COLORS BY CATEGORY ── */
+.c-math    { --cat: var(--blue);  --cat-light: var(--blue-light); }
+.c-prog    { --cat: var(--teal);  --cat-light: var(--teal-light); }
+.c-dl      { --cat: var(--green); --cat-light: var(--green-light); }
+.c-vision  { --cat: var(--amber); --cat-light: var(--amber-light); }
+.c-med     { --cat: var(--rose);  --cat-light: var(--rose-light); }
+.c-crop    { --cat: var(--green); --cat-light: var(--green-light); }
+.c-seg     { --cat: var(--rose);  --cat-light: var(--rose-light); }
+.c-detect  { --cat: var(--amber); --cat-light: var(--amber-light); }
+.c-recon   { --cat: var(--purple);--cat-light: var(--purple-light); }
+.c-gen     { --cat: var(--teal);  --cat-light: var(--teal-light); }
+.c-semi    { --cat: var(--blue);  --cat-light: var(--blue-light); }
+.c-paper   { --cat: var(--ink2);  --cat-light: var(--cream2); }
+
+.topic-dot   { background: var(--cat); }
+.type-badge  { background: var(--cat-light); color: var(--cat); border: 1px solid rgba(0,0,0,0.08); }
+.note-box    { background: var(--cat-light); border-left: 3px solid var(--cat); }
+.note-text   { color: var(--cat); }
+
+/* type icons */
+.t-video::before  { content: '▶ '; }
+.t-book::before   { content: '📘 '; }
+.t-course::before { content: '🎓 '; }
+.t-code::before   { content: '⚙ '; }
+.t-paper::before  { content: '📄 '; }
+.t-tool::before   { content: '🔧 '; }
+.t-dataset::before{ content: '🗃 '; }
+.t-blog::before   { content: '✍ '; }
+
+/* ── SUMMARY STATS ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1.5px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.stat-cell {
+  background: var(--cream);
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-family: 'Inconsolata', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .page { padding: 0 16px 80px; }
+  h1 { font-size: 2rem; }
+  .col-why, .col-time { display: none; }
+  .header-top { flex-direction: column; }
+  .header-meta { text-align: left; }
+  .phase-num { font-size: 2.5rem; }
+}
+
+/* ── HIDDEN STATE ── */
+.phase-block[data-hidden="true"] { display: none; }
+.topic-section[data-hidden="true"] { display: none; }
+
+/* fade in */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.phase-block { animation: fadeUp 0.4s ease both; }
+.phase-block:nth-child(2) { animation-delay: 0.05s; }
+.phase-block:nth-child(3) { animation-delay: 0.1s; }
+.phase-block:nth-child(4) { animation-delay: 0.15s; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <div>
+      <div class="eyebrow">Step-by-Step Learning Resources</div>
+      <h1>Medical Image &amp; Crop Research<br><em>Complete Study Guide</em></h1>
+    </div>
+    <div class="header-meta">
+      <div class="total-resources" id="totalCount">72</div>
+      <div class="total-label">Total Resources</div>
+    </div>
+  </div>
+  <p class="header-desc">Every resource you need — ordered by learning sequence, tagged by type, estimated by time. Check off each item as you complete it. Your progress is saved automatically.</p>
+</header>
+
+<!-- PROGRESS -->
+<div class="progress-bar-wrap">
+  <span class="progress-label">Your Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-count" id="progressCount">0 / 72 completed</span>
+</div>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-cell"><div class="stat-num">6</div><div class="stat-label">Phases</div></div>
+  <div class="stat-cell"><div class="stat-num">12</div><div class="stat-label">Topics</div></div>
+  <div class="stat-cell"><div class="stat-num">~340h</div><div class="stat-label">Est. Study Time</div></div>
+  <div class="stat-cell"><div class="stat-num">18mo</div><div class="stat-label">Target Duration</div></div>
+  <div class="stat-cell"><div class="stat-num">Free</div><div class="stat-label">Most Resources</div></div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterPhase('all', this)">All Phases</button>
+  <button class="filter-btn" onclick="filterPhase('1', this)">Phase 1 — Math</button>
+  <button class="filter-btn" onclick="filterPhase('2', this)">Phase 2 — DL &amp; Vision</button>
+  <button class="filter-btn" onclick="filterPhase('3', this)">Phase 3 — Medical</button>
+  <button class="filter-btn" onclick="filterPhase('4', this)">Phase 4 — Crop</button>
+  <button class="filter-btn" onclick="filterPhase('5', this)">Phase 5 — Advanced</button>
+  <button class="filter-btn" onclick="filterPhase('6', this)">Phase 6 — Research</button>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 1 — MATHEMATICAL FOUNDATIONS
+═══════════════════════════════════════ -->
+<div class="phase-block" data-phase="1">
+  <div class="phase-header">
+    <div class="phase-num">01</div>
+    <div class="phase-info">
+      <div class="phase-tag" style="color:var(--blue)">Foundation Layer</div>
+      <div class="phase-title">Mathematical &amp; Programming Foundations</div>
+    </div>
+    <div class="phase-duration">Month 1–2<br>~60 hours</div>
+  </div>
+
+  <!-- Math -->
+  <div class="topic-section c-math">
+    <div class="topic-label">
+      <div class="topic-dot"></div>
+      <div class="topic-name">Linear Algebra &amp; Calculus</div>
+      <div class="topic-count">5 resources</div>
+    </div>
+    <table class="resource-table">
+      <thead><tr>
+        <th class="col-check">✓</th>
+        <th class="col-step">#</th>
+        <th class="col-title">Resource</th>
+        <th class="col-type">Type</th>
+        <th class="col-time">Est. Time</th>
+        <th class="col-why">Why This &amp; What to Focus On</th>
+        <th class="col-link">Link</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td class="col-step"><span class="step-num">1.1</span></td>
+          <td><div class="res-title">Essence of Linear Algebra</div><div class="res-author">3Blue1Brown · YouTube</div></td>
+          <td><span class="type-badge t-video">Video</span></td>
+          <td><span class="time-est">6–8 hrs</span></td>
+          <td><span class="res-why">Best visual intuition for vectors, matrices, eigenvalues. Essential before any ML math. Watch all 15 chapters, pause and sketch every transformation.</span></td>
+          <td><a class="res-link" href="https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td class="col-step"><span class="step-num">1.2</span></td>
+          <td><div class="res-title">Essence of Calculus</div><div class="res-author">3Blue1Brown · YouTube</div></td>
+          <td><span class="type-badge t-video">Video</span></td>
+          <td><span class="time-est">4–5 hrs</span></td>
+          <td><span class="res-why">Visual calculus: derivatives, chain rule, integrals. Focus on chain rule deeply — it IS backpropagation. Chapter 4 (chain rule) is the most important.</span></td>
+          <td><a class="res-link" href="https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td class="col-step"><span class="step-num">1.3</span></td>
+          <td><div class="res-title">MIT 18.06 Linear Algebra — Full Course</div><div class="res-author">Gilbert Strang · MIT OCW</div></td>
+          <td><span class="type-badge t-course">Course</span></td>
+          <td><span class="time-est">20–25 hrs</span></td>
+          <td><span class="res-why">The definitive linear algebra course. Focus on SVD (Lecture 29), four fundamental subspaces, and least squares. SVD directly underlies PCA and many medical image compression methods.</span></td>
+          <td><a class="res-link" href="https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td class="col-step"><span class="step-num">1.4</span></td>
+          <td><div class="res-title">Mathematics for Machine Learning (Book)</div><div class="res-author">Deisenroth, Faisal, Ong · Cambridge UP · Free PDF</div></td>
+          <td><span class="type-badge t-book">Book</span></td>
+          <td><span class="time-est">15–20 hrs</span></td>
+          <td><span class="res-why">Chapters 2 (Linear Algebra), 5 (Vector Calculus), 6 (Probability) are the core. Has ML-specific examples. Read alongside 3B1B for reinforcement.</span></td>
+          <td><a class="res-link" href="https://mml-book.github.io/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td class="col-step"><span class="step-num">1.5</span></td>
+          <td><div class="res-title">Probability &amp; Statistics for ML — StatQuest</div><div class="res-author">Josh Starmer · YouTube</div></td>
+          <td><span class="type-badge t-video">Video</span></td>
+          <td><span class="time-est">8–10 hrs</span></td>
+          <td><span class="res-why">Best statistical intuition series online. Watch: Bayes' Theorem, MLE, Distributions, p-values, ROC curves. Every metric in medical AI traces back to statistics.</span></td>
+          <td><a class="res-link" href="https://www.youtube.com/@statquest" target="_blank">Open →</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note-box c-math">
+      <span class="note-icon">💡</span>
+      <span class="note-text">Milestone: After 1.5, you should be able to manually compute an SVD, explain what a gradient is, and describe Bayes' theorem. If not, revisit 1.1–1.3 before moving on.</span>
+    </div>
+  </div>
+
+  <!-- Python -->
+  <div class="topic-section c-prog">
+    <div class="topic-label">
+      <div class="topic-dot"></div>
+      <div class="topic-name">Python &amp; Scientific Computing</div>
+      <div class="topic-count">5 resources</div>
+    </div>
+    <table class="resource-table">
+      <thead><tr>
+        <th class="col-check">✓</th>
+        <th class="col-step">#</th>
+        <th class="col-title">Resource</th>
+        <th class="col-type">Type</th>
+        <th class="col-time">Est. Time</th>
+        <th class="col-why">Why This &amp; What to Focus On</th>
+        <th class="col-link">Link</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td class="col-step"><span class="step-num">1.6</span></td>
+          <td><div class="res-title">CS50P — Introduction to Programming with Python</div><div class="res-author">Harvard · edX · Free Audit</div></td>
+          <td><span class="type-badge t-course">Course</span></td>
+          <td><span class="time-est">10–15 hrs</span></td>
+          <td><span class="res-why">Skip if you already know Python. Otherwise, best structured Python course for beginners. Focus on functions, classes, file I/O, and libraries section.</span></td>
+          <td><a class="res-link" href="https://cs50.harvard.edu/python/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td class="col-step"><span class="step-num">1.7</span></td>
+          <td><div class="res-title">NumPy + Pandas + Matplotlib — Official Tutorials</div><div class="res-author">NumPy / Pandas / Matplotlib Docs</div></td>
+          <td><span class="type-badge t-code">Hands-on</span></td>
+          <td><span class="time-est">6–8 hrs</span></td>
+          <td><span class="res-why">Do the official tutorials for all three. NumPy array operations are the backbone of every image manipulation. Practice: load an image as a NumPy array, normalize it, visualize it.</span></td>
+          <td><a class="res-link" href="https://numpy.org/learn/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td class="col-step"><span class="step-num">1.8</span></td>
+          <td><div class="res-title">PyTorch Official Tutorials — 60-Minute Blitz</div><div class="res-author">PyTorch · pytorch.org</div></td>
+          <td><span class="type-badge t-code">Hands-on</span></td>
+          <td><span class="time-est">4–6 hrs</span></td>
+          <td><span class="res-why">Start here for PyTorch. The tensor tutorial maps directly to NumPy, and the autograd tutorial shows backprop in practice. Complete all exercises in their own notebook.</span></td>
+          <td><a class="res-link" href="https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td class="col-step"><span class="step-num">1.9</span></td>
+          <td><div class="res-title">OpenCV Python Tutorials</div><div class="res-author">OpenCV Docs · opencv.org</div></td>
+          <td><span class="type-badge t-code">Hands-on</span></td>
+          <td><span class="time-est">5–7 hrs</span></td>
+          <td><span class="res-why">Core image processing operations: thresholding, morphology, edge detection, histograms. Complete chapters: Core Operations, Image Processing, Feature Detection. Essential for crop and medical preprocessing.</span></td>
+          <td><a class="res-link" href="https://docs.opencv.org/4.x/d9/df8/tutorial_root.html" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td class="col-step"><span class="step-num">1.10</span></td>
+          <td><div class="res-title">Git &amp; GitHub for Researchers</div><div class="res-author">The Turing Way · GitHub</div></td>
+          <td><span class="type-badge t-code">Hands-on</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Every research project needs version control. Learn: init, commit, branch, push, pull requests. Create a public GitHub profile now — professors check this during admissions.</span></td>
+          <td><a class="res-link" href="https://the-turing-way.netlify.app/reproducible-research/vcs.html" target="_blank">Open →</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 2 — DEEP LEARNING & VISION
+═══════════════════════════════════════ -->
+<div class="phase-block" data-phase="2">
+  <div class="phase-header">
+    <div class="phase-num">02</div>
+    <div class="phase-info">
+      <div class="phase-tag" style="color:var(--green)">Core Engine</div>
+      <div class="phase-title">Deep Learning &amp; Computer Vision</div>
+    </div>
+    <div class="phase-duration">Month 3–4<br>~80 hours</div>
+  </div>
+
+  <!-- DL Fundamentals -->
+  <div class="topic-section c-dl">
+    <div class="topic-label">
+      <div class="topic-dot"></div>
+      <div class="topic-name">Deep Learning Fundamentals</div>
+      <div class="topic-count">6 resources</div>
+    </div>
+    <table class="resource-table">
+      <thead><tr>
+        <th class="col-check">✓</th><th class="col-step">#</th><th class="col-title">Resource</th>
+        <th class="col-type">Type</th><th class="col-time">Est. Time</th>
+        <th class="col-why">Why This &amp; What to Focus On</th><th class="col-link">Link</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">2.1</span></td>
+          <td><div class="res-title">fast.ai — Practical Deep Learning for Coders (Part 1)</div><div class="res-author">Jeremy Howard · fast.ai · Free</div></td>
+          <td><span class="type-badge t-course">Course</span></td>
+          <td><span class="time-est">20–25 hrs</span></td>
+          <td><span class="res-why">Best practical DL course. Top-down: you train a model in lesson 1. Covers CNNs, transfer learning, data augmentation, training loops. Use the Kaggle notebooks provided.</span></td>
+          <td><a class="res-link" href="https://course.fast.ai/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">2.2</span></td>
+          <td><div class="res-title">Neural Networks: Zero to Hero</div><div class="res-author">Andrej Karpathy · YouTube</div></td>
+          <td><span class="type-badge t-video">Video</span></td>
+          <td><span class="time-est">12–15 hrs</span></td>
+          <td><span class="res-why">Build a neural network from scratch in pure Python/NumPy. Covers backprop, MLPs, CNNs, and GPT — by the best educator in AI. Watch every video, type every line of code yourself.</span></td>
+          <td><a class="res-link" href="https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">2.3</span></td>
+          <td><div class="res-title">Deep Learning Book — Chapters 6–9</div><div class="res-author">Goodfellow, Bengio, Courville · Free Online</div></td>
+          <td><span class="type-badge t-book">Book</span></td>
+          <td><span class="time-est">10–12 hrs</span></td>
+          <td><span class="res-why">Ch6: MLPs, Ch7: Regularization, Ch8: Optimization, Ch9: CNNs. Read these four chapters for the rigorous theory behind what you practiced in 2.1. Skip other chapters for now.</span></td>
+          <td><a class="res-link" href="https://www.deeplearningbook.org/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">2.4</span></td>
+          <td><div class="res-title">Attention Is All You Need (Transformer Paper)</div><div class="res-author">Vaswani et al. · NeurIPS 2017 · arXiv:1706.03762</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">4–6 hrs</span></td>
+          <td><span class="res-why">The most important architecture paper of the last decade. Read 3× — once for overview, once for math, once to implement. Use "The Annotated Transformer" blog alongside it.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/1706.03762" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">2.5</span></td>
+          <td><div class="res-title">The Annotated Transformer</div><div class="res-author">Harvard NLP · nlp.seas.harvard.edu</div></td>
+          <td><span class="type-badge t-blog">Blog+Code</span></td>
+          <td><span class="time-est">4–6 hrs</span></td>
+          <td><span class="res-why">Line-by-line PyTorch implementation of the Transformer. Essential companion to paper 2.4. Run every cell, modify hyperparameters, see what breaks.</span></td>
+          <td><a class="res-link" href="http://nlp.seas.harvard.edu/annotated-transformer/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">2.6</span></td>
+          <td><div class="res-title">An Image is Worth 16×16 Words: ViT Paper</div><div class="res-author">Dosovitskiy et al. · ICLR 2021 · arXiv:2010.11929</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">The foundation of Vision Transformers. Every modern medical image analysis paper uses ViT variants. Understand patch embedding, class token, and positional encoding deeply.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/2010.11929" target="_blank">Open →</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Computer Vision -->
+  <div class="topic-section c-vision">
+    <div class="topic-label">
+      <div class="topic-dot"></div>
+      <div class="topic-name">Computer Vision &amp; Image Processing</div>
+      <div class="topic-count">5 resources</div>
+    </div>
+    <table class="resource-table">
+      <thead><tr>
+        <th class="col-check">✓</th><th class="col-step">#</th><th class="col-title">Resource</th>
+        <th class="col-type">Type</th><th class="col-time">Est. Time</th>
+        <th class="col-why">Why This &amp; What to Focus On</th><th class="col-link">Link</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">2.7</span></td>
+          <td><div class="res-title">CS231n: Deep Learning for Computer Vision</div><div class="res-author">Stanford · cs231n.stanford.edu · Free</div></td>
+          <td><span class="type-badge t-course">Course</span></td>
+          <td><span class="time-est">25–30 hrs</span></td>
+          <td><span class="res-why">The gold standard CV course. Do all lecture notes + Assignments 1–3. Assignment 2 (CNNs, BatchNorm, Dropout) is the most important. Notes alone are worth reading without videos.</span></td>
+          <td><a class="res-link" href="http://cs231n.stanford.edu/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">2.8</span></td>
+          <td><div class="res-title">Deep Residual Learning (ResNet Paper)</div><div class="res-author">He et al. · CVPR 2016 · arXiv:1512.03385</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">2–3 hrs</span></td>
+          <td><span class="res-why">Skip connections are used in virtually every modern medical image architecture. Implement ResNet-18 from scratch in PyTorch after reading this paper.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/1512.03385" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">2.9</span></td>
+          <td><div class="res-title">Swin Transformer: Hierarchical Vision Transformer</div><div class="res-author">Liu et al. · ICCV 2021 · arXiv:2103.14030</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Swin's window-based attention is the backbone of SwinUNet and many modern medical segmentation models. Focus on shifted window partitioning and patch merging.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/2103.14030" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">2.10</span></td>
+          <td><div class="res-title">Albumentations — Image Augmentation Library</div><div class="res-author">albumentations.ai · Docs + Examples</div></td>
+          <td><span class="type-badge t-tool">Tool</span></td>
+          <td><span class="time-est">2–3 hrs</span></td>
+          <td><span class="res-why">The standard augmentation library for medical and crop imaging. Read the medical imaging tutorial. Practice building a full augmentation pipeline for a chest X-ray dataset.</span></td>
+          <td><a class="res-link" href="https://albumentations.ai/docs/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">2.11</span></td>
+          <td><div class="res-title">timm — PyTorch Image Models</div><div class="res-author">Ross Wightman · GitHub / HuggingFace</div></td>
+          <td><span class="type-badge t-tool">Tool</span></td>
+          <td><span class="time-est">2–3 hrs</span></td>
+          <td><span class="res-why">700+ pretrained vision models in one library. Learn to fine-tune a ViT or ResNet on a medical dataset in &lt;50 lines of code. Invaluable for fast experimentation.</span></td>
+          <td><a class="res-link" href="https://timm.fast.ai/" target="_blank">Open →</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 3 — MEDICAL IMAGING
+═══════════════════════════════════════ -->
+<div class="phase-block" data-phase="3">
+  <div class="phase-header">
+    <div class="phase-num">03</div>
+    <div class="phase-info">
+      <div class="phase-tag" style="color:var(--rose)">Medical Specialization</div>
+      <div class="phase-title">Medical Image Analysis — Segmentation, Detection, Reconstruction</div>
+    </div>
+    <div class="phase-duration">Month 5–8<br>~90 hours</div>
+  </div>
+
+  <!-- Segmentation -->
+  <div class="topic-section c-seg">
+    <div class="topic-label">
+      <div class="topic-dot"></div>
+      <div class="topic-name">Medical Image Segmentation</div>
+      <div class="topic-count">6 resources</div>
+    </div>
+    <table class="resource-table">
+      <thead><tr>
+        <th class="col-check">✓</th><th class="col-step">#</th><th class="col-title">Resource</th>
+        <th class="col-type">Type</th><th class="col-time">Est. Time</th>
+        <th class="col-why">Why This &amp; What to Focus On</th><th class="col-link">Link</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.1</span></td>
+          <td><div class="res-title">U-Net: Convolutional Networks for Biomedical Image Segmentation</div><div class="res-author">Ronneberger et al. · MICCAI 2015 · arXiv:1505.04597</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">The paper that defines the field. Read it, then implement it from scratch in PyTorch on the DRIVE retinal vessel dataset. Don't use a library — build every layer yourself.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/1505.04597" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.2</span></td>
+          <td><div class="res-title">TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation</div><div class="res-author">Chen et al. · arXiv 2021 · arXiv:2102.04306</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Hybridizes CNN encoder with Transformer for global context. The benchmark paper that triggered a wave of hybrid architectures. Study Fig. 2 architecture diagram carefully.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/2102.04306" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.3</span></td>
+          <td><div class="res-title">nnU-Net: Self-configuring DL Segmentation</div><div class="res-author">Isensee et al. · Nature Methods 2021</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Read the paper AND install the nnU-Net library. Run it on BraTS 2021 dataset. Understanding the automatic preprocessing heuristics is key — this is what wins competitions.</span></td>
+          <td><a class="res-link" href="https://github.com/MIC-DKFZ/nnUNet" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.4</span></td>
+          <td><div class="res-title">MONAI — Medical Open Network for AI</div><div class="res-author">Project MONAI · monai.io · Free</div></td>
+          <td><span class="type-badge t-tool">Tool</span></td>
+          <td><span class="time-est">6–8 hrs</span></td>
+          <td><span class="res-why">The PyTorch library for medical imaging. Complete the "Getting Started" tutorial and the "3D Segmentation" end-to-end tutorial. This will be your main research toolkit.</span></td>
+          <td><a class="res-link" href="https://monai.io/started.html" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.5</span></td>
+          <td><div class="res-title">Segment Anything Model (SAM)</div><div class="res-author">Kirillov et al. · Meta AI 2023 · arXiv:2304.02643</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Foundation model for segmentation. Then read MedSAM (Ma et al. 2024) which adapts it for medical imaging. This is one of the hottest research areas right now.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/2304.02643" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.6</span></td>
+          <td><div class="res-title">BraTS 2021 Challenge Dataset + Baseline</div><div class="res-author">Baid et al. · synapse.org / Kaggle</div></td>
+          <td><span class="type-badge t-dataset">Dataset</span></td>
+          <td><span class="time-est">8–10 hrs</span></td>
+          <td><span class="res-why">Brain tumor MRI segmentation — the most cited medical segmentation benchmark. Download, visualize all 4 MRI modalities (T1, T1ce, T2, FLAIR), run nnU-Net baseline, log Dice score.</span></td>
+          <td><a class="res-link" href="https://www.kaggle.com/datasets/dschettler8845/brats-2021-task1" target="_blank">Open →</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Detection -->
+  <div class="topic-section c-detect">
+    <div class="topic-label">
+      <div class="topic-dot"></div>
+      <div class="topic-name">Medical Object Detection</div>
+      <div class="topic-count">4 resources</div>
+    </div>
+    <table class="resource-table">
+      <thead><tr>
+        <th class="col-check">✓</th><th class="col-step">#</th><th class="col-title">Resource</th>
+        <th class="col-type">Type</th><th class="col-time">Est. Time</th>
+        <th class="col-why">Why This &amp; What to Focus On</th><th class="col-link">Link</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.7</span></td>
+          <td><div class="res-title">YOLOv8 Documentation &amp; Tutorials</div><div class="res-author">Ultralytics · docs.ultralytics.com</div></td>
+          <td><span class="type-badge t-tool">Tool</span></td>
+          <td><span class="time-est">4–5 hrs</span></td>
+          <td><span class="res-why">Train YOLOv8 on CheXpert for chest pathology detection in under 2 hours. Read the architecture docs, then fine-tune a pretrained model. The go-to detection tool for both crop and medical.</span></td>
+          <td><a class="res-link" href="https://docs.ultralytics.com/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.8</span></td>
+          <td><div class="res-title">DETR: End-to-End Object Detection with Transformers</div><div class="res-author">Carion et al. · ECCV 2020 · arXiv:2005.12872</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Eliminates NMS and anchors using bipartite matching. Conceptually cleaner than YOLO. Understanding Hungarian matching loss is important for lesion detection research.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/2005.12872" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.9</span></td>
+          <td><div class="res-title">CheXpert Dataset — Chest X-Ray Detection</div><div class="res-author">Irvin et al. · Stanford ML Group</div></td>
+          <td><span class="type-badge t-dataset">Dataset</span></td>
+          <td><span class="time-est">5–6 hrs</span></td>
+          <td><span class="res-why">224,316 chest X-rays, 14 pathology labels. Reproduce a baseline classifier first, then adapt to detection. Good for learning multi-label classification and uncertainty (U-Ignore policy).</span></td>
+          <td><a class="res-link" href="https://stanfordmlgroup.github.io/competitions/chexpert/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.10</span></td>
+          <td><div class="res-title">LIDC-IDRI — Lung CT Nodule Detection Dataset</div><div class="res-author">Armato et al. · TCIA · Free</div></td>
+          <td><span class="type-badge t-dataset">Dataset</span></td>
+          <td><span class="time-est">4–5 hrs</span></td>
+          <td><span class="res-why">1018 CT scans with lung nodule annotations by 4 radiologists. Great for learning 3D detection and inter-annotator agreement handling — a real challenge in medical AI.</span></td>
+          <td><a class="res-link" href="https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI" target="_blank">Open →</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Reconstruction -->
+  <div class="topic-section c-recon">
+    <div class="topic-label">
+      <div class="topic-dot"></div>
+      <div class="topic-name">Medical Image Reconstruction (MRI / CT)</div>
+      <div class="topic-count">4 resources</div>
+    </div>
+    <table class="resource-table">
+      <thead><tr>
+        <th class="col-check">✓</th><th class="col-step">#</th><th class="col-title">Resource</th>
+        <th class="col-type">Type</th><th class="col-time">Est. Time</th>
+        <th class="col-why">Why This &amp; What to Focus On</th><th class="col-link">Link</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.11</span></td>
+          <td><div class="res-title">MRI Physics for ML Practitioners — NYU Course Notes</div><div class="res-author">NYU Center for Advanced Imaging Innovation · Free PDF</div></td>
+          <td><span class="type-badge t-book">Notes</span></td>
+          <td><span class="time-est">5–7 hrs</span></td>
+          <td><span class="res-why">You must understand k-space before touching MRI reconstruction code. This covers: k-space sampling, Fourier transform, undersampling artifacts. Without this, reconstruction papers are opaque.</span></td>
+          <td><a class="res-link" href="https://www.sciencedirect.com/science/article/pii/S1053811922008655" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.12</span></td>
+          <td><div class="res-title">fastMRI Dataset + Benchmark Paper</div><div class="res-author">Zbontar et al. · Facebook AI 2018 · arXiv:1811.08839</div></td>
+          <td><span class="type-badge t-dataset">Dataset</span></td>
+          <td><span class="time-est">5–6 hrs</span></td>
+          <td><span class="res-why">The standard benchmark for MRI reconstruction. Read the paper, download the knee MRI subset, visualize undersampled k-space, run the provided baseline, compute SSIM/PSNR metrics.</span></td>
+          <td><a class="res-link" href="https://fastmri.org/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.13</span></td>
+          <td><div class="res-title">E2E-VarNet: End-to-End Variational Networks for MRI Reconstruction</div><div class="res-author">Sriram et al. · MICCAI 2020 · arXiv:2004.06688</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Current SOTA on fastMRI. Combines physics (k-space) with learned image refinement. Understanding the data consistency layer is the key innovation to study here.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/2004.06688" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">3.14</span></td>
+          <td><div class="res-title">Score-Based Diffusion for MRI Reconstruction</div><div class="res-author">Song et al. lineage · multiple papers 2022–2024</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">4–5 hrs</span></td>
+          <td><span class="res-why">Diffusion models now achieve SOTA in reconstruction. Search "diffusion model MRI reconstruction" on arXiv, read the 2 most-cited 2023 papers. This is where the field is moving fastest.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/search/?query=diffusion+MRI+reconstruction&searchtype=all" target="_blank">Open →</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note-box c-recon">
+      <span class="note-icon">⚠️</span>
+      <span class="note-text">Before reading reconstruction papers, make sure you can compute and visualize a 2D Fourier transform in NumPy, apply a mask to k-space, and reconstruct the image. This hands-on test reveals whether you truly understand the physics.</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 4 — CROP RESEARCH
+═══════════════════════════════════════ -->
+<div class="phase-block" data-phase="4">
+  <div class="phase-header">
+    <div class="phase-num">04</div>
+    <div class="phase-info">
+      <div class="phase-tag" style="color:var(--green)">Crop Specialization</div>
+      <div class="phase-title">Agricultural &amp; Crop Image Analysis</div>
+    </div>
+    <div class="phase-duration">Month 7–10<br>~50 hours</div>
+  </div>
+
+  <div class="topic-section c-crop">
+    <div class="topic-label">
+      <div class="topic-dot"></div>
+      <div class="topic-name">Crop Disease Detection, Segmentation &amp; Remote Sensing</div>
+      <div class="topic-count">8 resources</div>
+    </div>
+    <table class="resource-table">
+      <thead><tr>
+        <th class="col-check">✓</th><th class="col-step">#</th><th class="col-title">Resource</th>
+        <th class="col-type">Type</th><th class="col-time">Est. Time</th>
+        <th class="col-why">Why This &amp; What to Focus On</th><th class="col-link">Link</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">4.1</span></td>
+          <td><div class="res-title">Using Deep Learning for Image-Based Plant Disease Detection</div><div class="res-author">Mohanty, Hughes, Salathé · Frontiers in Plant Science 2016</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">2–3 hrs</span></td>
+          <td><span class="res-why">The foundational crop disease paper. Introduced PlantVillage. Read this first, then reproduce the CNN classification baseline on PlantVillage. Understand the lab vs. field domain gap problem they raise.</span></td>
+          <td><a class="res-link" href="https://www.frontiersin.org/articles/10.3389/fpls.2016.01419/full" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">4.2</span></td>
+          <td><div class="res-title">PlantVillage Dataset</div><div class="res-author">Hughes &amp; Salathé · Kaggle / GitHub</div></td>
+          <td><span class="type-badge t-dataset">Dataset</span></td>
+          <td><span class="time-est">5–6 hrs</span></td>
+          <td><span class="res-why">54,305 images, 38 plant disease classes. First benchmark to practice on. Train a ResNet or EfficientNet classifier, achieve &gt;95% accuracy, then explore where it fails (blurry, real-field images).</span></td>
+          <td><a class="res-link" href="https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">4.3</span></td>
+          <td><div class="res-link-stub" style="display:none"></div><div class="res-title">Deep Learning for Plant Disease: A Review (2022–2023 Survey)</div><div class="res-author">Search: "deep learning crop disease detection survey 2023" · Google Scholar</div></td>
+          <td><span class="type-badge t-paper">Survey</span></td>
+          <td><span class="time-est">4–5 hrs</span></td>
+          <td><span class="res-why">Read a comprehensive 2023 survey to get the landscape. Find one from IEEE TGRS or Computers &amp; Electronics in Agriculture. Note: which datasets are used, which architectures win, what gaps remain.</span></td>
+          <td><a class="res-link" href="https://scholar.google.com/scholar?q=deep+learning+crop+disease+detection+survey+2023" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">4.4</span></td>
+          <td><div class="res-title">Remote Sensing Image Analysis with Python — Tutorial Series</div><div class="res-author">earthdatascience.org · Free</div></td>
+          <td><span class="type-badge t-course">Course</span></td>
+          <td><span class="time-est">8–10 hrs</span></td>
+          <td><span class="res-why">Learn multispectral imaging, NDVI calculation, satellite image handling with rasterio and geopandas. Multispectral data is key for crop health analysis — RGB alone misses critical information in NIR bands.</span></td>
+          <td><a class="res-link" href="https://www.earthdatascience.org/courses/use-data-open-source-python/multispectral-remote-sensing/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">4.5</span></td>
+          <td><div class="res-title">DeepGlobe Land Cover Segmentation Dataset</div><div class="res-author">CVPR 2018 Workshop · Kaggle</div></td>
+          <td><span class="type-badge t-dataset">Dataset</span></td>
+          <td><span class="time-est">5–6 hrs</span></td>
+          <td><span class="res-why">Satellite images for agricultural land segmentation. Segmenting cropland vs. forest vs. urban is a key remote sensing task. Run a SegFormer or DeepLabV3+ baseline and analyze failure cases.</span></td>
+          <td><a class="res-link" href="https://www.kaggle.com/datasets/balraj98/deepglobe-land-cover-classification-dataset" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">4.6</span></td>
+          <td><div class="res-title">iNaturalist 2021 — Plant Species Recognition</div><div class="res-author">Van Horn et al. · iNaturalist / Kaggle</div></td>
+          <td><span class="type-badge t-dataset">Dataset</span></td>
+          <td><span class="time-est">4–5 hrs</span></td>
+          <td><span class="res-why">2.7M images, 10,000 species. Explore long-tail distribution problem — rare species have &lt;10 images. Great motivation for few-shot learning research in crop identification.</span></td>
+          <td><a class="res-link" href="https://www.kaggle.com/c/inaturalist-2021" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">4.7</span></td>
+          <td><div class="res-title">Roboflow — Crop &amp; Plant Disease Detection Notebooks</div><div class="res-author">Roboflow · roboflow.com/blog</div></td>
+          <td><span class="type-badge t-code">Hands-on</span></td>
+          <td><span class="time-est">4–5 hrs</span></td>
+          <td><span class="res-why">Practical tutorials for training YOLOv8 on plant disease bounding boxes. Use their free tier to annotate 50 leaf images yourself — annotation experience is essential for understanding data quality challenges.</span></td>
+          <td><a class="res-link" href="https://roboflow.com/industries/agriculture" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">4.8</span></td>
+          <td><div class="res-title">CLIP for Zero-Shot Crop Classification</div><div class="res-author">Radford et al. · OpenAI 2021 · arXiv:2103.00020</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Read CLIP then experiment: can you classify new plant diseases using text descriptions without any labeled images? This is the frontier of vision-language models in crop research. Very few papers have explored this.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/2103.00020" target="_blank">Open →</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 5 — ADVANCED TOPICS
+═══════════════════════════════════════ -->
+<div class="phase-block" data-phase="5">
+  <div class="phase-header">
+    <div class="phase-num">05</div>
+    <div class="phase-info">
+      <div class="phase-tag" style="color:var(--teal)">Advanced Methods</div>
+      <div class="phase-title">Generative Models, Self-Supervised Learning &amp; Advanced Techniques</div>
+    </div>
+    <div class="phase-duration">Month 9–13<br>~70 hours</div>
+  </div>
+
+  <!-- Generative -->
+  <div class="topic-section c-gen">
+    <div class="topic-label">
+      <div class="topic-dot"></div>
+      <div class="topic-name">Generative Models for Medical &amp; Crop Imaging</div>
+      <div class="topic-count">5 resources</div>
+    </div>
+    <table class="resource-table">
+      <thead><tr>
+        <th class="col-check">✓</th><th class="col-step">#</th><th class="col-title">Resource</th>
+        <th class="col-type">Type</th><th class="col-time">Est. Time</th>
+        <th class="col-why">Why This &amp; What to Focus On</th><th class="col-link">Link</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">5.1</span></td>
+          <td><div class="res-title">Generative Adversarial Networks — Tutorial</div><div class="res-author">Ian Goodfellow · NIPS 2016 Tutorial · arXiv:1701.00160</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Read this tutorial paper before anything GAN-related. Focus on the minimax formulation, mode collapse problem, and training instability. These problems directly affect medical image synthesis quality.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/1701.00160" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">5.2</span></td>
+          <td><div class="res-title">CycleGAN: Unpaired Image-to-Image Translation</div><div class="res-author">Zhu et al. · ICCV 2017 · arXiv:1703.10593</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Cycle consistency is used everywhere: MRI modality translation (T1→T2), CT→MRI synthesis, stain normalization, crop sensor domain adaptation. Implement on a paired dataset to verify your understanding.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/1703.10593" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">5.3</span></td>
+          <td><div class="res-title">Denoising Diffusion Probabilistic Models (DDPM)</div><div class="res-author">Ho et al. · NeurIPS 2020 · arXiv:2006.11239</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">5–6 hrs</span></td>
+          <td><span class="res-why">The paper that made diffusion dominant. Understand the forward (noising) and reverse (denoising) process mathematically. Then read the "Diffusion Models Beat GANs" paper (Dhariwal 2021) as the follow-up.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/2006.11239" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">5.4</span></td>
+          <td><div class="res-title">Diffusion Models — Lilian Weng's Blog</div><div class="res-author">Lilian Weng · lilianweng.github.io</div></td>
+          <td><span class="type-badge t-blog">Blog</span></td>
+          <td><span class="time-est">4–5 hrs</span></td>
+          <td><span class="res-why">The best written explanation of diffusion models from DDPM to score-based to latent diffusion. Essential companion to reading the papers. Read it twice — once before papers, once after.</span></td>
+          <td><a class="res-link" href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">5.5</span></td>
+          <td><div class="res-title">Med-DDPM / SynthSeg — Medical Image Synthesis with Diffusion</div><div class="res-author">Multiple · arXiv 2023 · Search on PapersWithCode</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Read 2–3 papers on diffusion-based medical image synthesis. Find current SOTA on PapersWithCode under "Medical Image Synthesis". This is the direct application of 5.3 to your domain.</span></td>
+          <td><a class="res-link" href="https://paperswithcode.com/task/medical-image-synthesis" target="_blank">Open →</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Semi-Supervised -->
+  <div class="topic-section c-semi">
+    <div class="topic-label">
+      <div class="topic-dot"></div>
+      <div class="topic-name">Self-Supervised &amp; Semi-Supervised Learning</div>
+      <div class="topic-count">5 resources</div>
+    </div>
+    <table class="resource-table">
+      <thead><tr>
+        <th class="col-check">✓</th><th class="col-step">#</th><th class="col-title">Resource</th>
+        <th class="col-type">Type</th><th class="col-time">Est. Time</th>
+        <th class="col-why">Why This &amp; What to Focus On</th><th class="col-link">Link</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">5.6</span></td>
+          <td><div class="res-title">A Simple Framework for Contrastive Learning (SimCLR)</div><div class="res-author">Chen et al. · ICML 2020 · arXiv:2002.05709</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Foundation of contrastive self-supervised learning. Understand the NT-Xent loss and the role of augmentation. This technique is vital when labeled medical data is scarce.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/2002.05709" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">5.7</span></td>
+          <td><div class="res-title">Masked Autoencoders Are Scalable Vision Learners (MAE)</div><div class="res-author">He et al. · CVPR 2022 · arXiv:2111.06377</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">75% masking, reconstruct missing patches — powerful pretraining with no labels. Many 2023–2024 medical papers use MAE-pretrained ViTs. Implement the masking strategy in PyTorch as an exercise.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/2111.06377" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">5.8</span></td>
+          <td><div class="res-title">SSL4MIS — Semi-Supervised Learning for Medical Image Segmentation</div><div class="res-author">Luo et al. · GitHub Repository</div></td>
+          <td><span class="type-badge t-code">Code Repo</span></td>
+          <td><span class="time-est">5–6 hrs</span></td>
+          <td><span class="res-why">A comprehensive codebase implementing 10+ semi-supervised medical segmentation methods (Mean Teacher, FixMatch, etc.). Run at least 3 methods on the same dataset and compare — this is a mini-research exercise.</span></td>
+          <td><a class="res-link" href="https://github.com/HiLab-git/SSL4MIS" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">5.9</span></td>
+          <td><div class="res-title">DINO: Self-Supervised Vision Transformers</div><div class="res-author">Caron et al. · ICCV 2021 · arXiv:2104.14294</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">3–4 hrs</span></td>
+          <td><span class="res-why">Self-distillation with no labels produces features that surprisingly segment objects. DINOv2 features are used as strong baselines in medical segmentation. Read DINOv2 (Oquab 2023) as the follow-up.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/2104.14294" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">5.10</span></td>
+          <td><div class="res-title">LoRA: Low-Rank Adaptation of Large Language Models</div><div class="res-author">Hu et al. · ICLR 2022 · arXiv:2106.09685</div></td>
+          <td><span class="type-badge t-paper">Paper</span></td>
+          <td><span class="time-est">2–3 hrs</span></td>
+          <td><span class="res-why">Parameter-efficient fine-tuning (PEFT) is now essential for adapting large models (SAM, ViT) to medical tasks with limited data. LoRA is the most widely used PEFT method. Read, then look for MedSAM-LoRA papers.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/abs/2106.09685" target="_blank">Open →</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     PHASE 6 — RESEARCH SKILLS
+═══════════════════════════════════════ -->
+<div class="phase-block" data-phase="6">
+  <div class="phase-header">
+    <div class="phase-num">06</div>
+    <div class="phase-info">
+      <div class="phase-tag" style="color:var(--amber)">Research Execution</div>
+      <div class="phase-title">Paper Writing, Experiment Design &amp; PhD Application</div>
+    </div>
+    <div class="phase-duration">Month 14–18<br>~40 hours</div>
+  </div>
+
+  <div class="topic-section c-paper">
+    <div class="topic-label">
+      <div class="topic-dot"></div>
+      <div class="topic-name">Research Tools, Writing &amp; Publication</div>
+      <div class="topic-count">9 resources</div>
+    </div>
+    <table class="resource-table">
+      <thead><tr>
+        <th class="col-check">✓</th><th class="col-step">#</th><th class="col-title">Resource</th>
+        <th class="col-type">Type</th><th class="col-time">Est. Time</th>
+        <th class="col-why">Why This &amp; What to Focus On</th><th class="col-link">Link</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">6.1</span></td>
+          <td><div class="res-title">Overleaf LaTeX — Learn LaTeX in 30 Minutes</div><div class="res-author">Overleaf · overleaf.com · Free</div></td>
+          <td><span class="type-badge t-tool">Tool</span></td>
+          <td><span class="time-est">2–3 hrs</span></td>
+          <td><span class="res-why">All academic papers are written in LaTeX. Complete the 30-minute tutorial, then typeset a 2-page document with equations, figures, and references. This is non-negotiable for research.</span></td>
+          <td><a class="res-link" href="https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">6.2</span></td>
+          <td><div class="res-title">Weights &amp; Biases (wandb) — ML Experiment Tracking</div><div class="res-author">wandb.ai · Free for students</div></td>
+          <td><span class="type-badge t-tool">Tool</span></td>
+          <td><span class="time-est">2–3 hrs</span></td>
+          <td><span class="res-why">Track every experiment: loss curves, hyperparameters, system metrics. Reproducibility is a core research value. Add wandb to your next training script and log everything from day one.</span></td>
+          <td><a class="res-link" href="https://docs.wandb.ai/quickstart" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">6.3</span></td>
+          <td><div class="res-title">Papers With Code — Benchmark Leaderboards</div><div class="res-author">paperswithcode.com · Free</div></td>
+          <td><span class="type-badge t-tool">Tool</span></td>
+          <td><span class="time-est">Ongoing</span></td>
+          <td><span class="res-why">Always check PapersWithCode before reading a paper to understand where it ranks. Use it to find the current SOTA for any benchmark in your area. Follow the "Medical Image Segmentation" and "Crop Disease" tasks.</span></td>
+          <td><a class="res-link" href="https://paperswithcode.com/area/medical" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">6.4</span></td>
+          <td><div class="res-title">How to Read a Paper</div><div class="res-author">S. Keshav · University of Waterloo · Free PDF</div></td>
+          <td><span class="type-badge t-paper">Guide</span></td>
+          <td><span class="time-est">30 min</span></td>
+          <td><span class="res-why">A 3-pass method for reading papers efficiently. Read this before attempting any of the papers in Phase 3–5. It will cut your reading time by half and improve retention dramatically.</span></td>
+          <td><a class="res-link" href="https://web.stanford.edu/class/ee384m/Handouts/HowtoReadPaper.pdf" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">6.5</span></td>
+          <td><div class="res-title">How to Write a Great Research Paper</div><div class="res-author">Simon Peyton Jones · Microsoft Research · YouTube</div></td>
+          <td><span class="type-badge t-video">Video</span></td>
+          <td><span class="time-est">1 hr</span></td>
+          <td><span class="res-why">The best talk on research paper writing. Key lesson: write the paper first, then do the experiments. Forces you to clarify your contribution before getting lost in code. Watch before writing your first draft.</span></td>
+          <td><a class="res-link" href="https://www.youtube.com/watch?v=VK51E3gHENc" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">6.6</span></td>
+          <td><div class="res-title">Zotero — Reference Manager</div><div class="res-author">zotero.org · Free</div></td>
+          <td><span class="type-badge t-tool">Tool</span></td>
+          <td><span class="time-est">1–2 hrs</span></td>
+          <td><span class="res-why">Install Zotero and the browser extension today. Every paper you read from Phase 2 onward goes into Zotero with a 3-line summary note. After 60 papers, this becomes your literature review database.</span></td>
+          <td><a class="res-link" href="https://www.zotero.org/support/quick_start_guide" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">6.7</span></td>
+          <td><div class="res-title">MICCAI 2024 Proceedings — Browse Latest Work</div><div class="res-author">Springer LNCS · miccai.org</div></td>
+          <td><span class="type-badge t-paper">Proceedings</span></td>
+          <td><span class="time-est">Ongoing</span></td>
+          <td><span class="res-why">Read 10 MICCAI 2024 papers in your niche. Note the structure, contribution style, experiment design, and what makes each paper's "story" compelling. This trains your sense for what a publishable contribution looks like.</span></td>
+          <td><a class="res-link" href="https://link.springer.com/conference/miccai" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">6.8</span></td>
+          <td><div class="res-title">Applying to PhD Programs in CS / AI — Complete Guide</div><div class="res-author">Casey Fiesler · YouTube + Blog</div></td>
+          <td><span class="type-badge t-video">Video</span></td>
+          <td><span class="time-est">2–3 hrs</span></td>
+          <td><span class="res-why">Watch the PhD application series. Covers: how to find advisors, write SoP, cold email professors, what admissions committees actually look for. Most applicants make avoidable mistakes this guide prevents.</span></td>
+          <td><a class="res-link" href="https://www.youtube.com/@caseyfiesler" target="_blank">Open →</a></td>
+        </tr>
+        <tr>
+          <td class="col-check"><div class="check-box" onclick="toggle(this)"></div></td>
+          <td><span class="step-num">6.9</span></td>
+          <td><div class="res-title">arXiv.org — cs.CV &amp; eess.IV Daily Feed</div><div class="res-author">arXiv.org · Free</div></td>
+          <td><span class="type-badge t-tool">Tool</span></td>
+          <td><span class="time-est">Daily 20 min</span></td>
+          <td><span class="res-why">Browse new submissions daily in cs.CV and eess.IV (medical image processing). Read titles and abstracts of 10 papers per day — takes 15 minutes. After 3 months, you'll instantly recognize trends and gaps.</span></td>
+          <td><a class="res-link" href="https://arxiv.org/list/cs.CV/recent" target="_blank">Open →</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note-box c-paper">
+      <span class="note-icon">🎯</span>
+      <span class="note-text">Final milestone: By month 18, you should have: 1 preprint or workshop paper on arXiv, a clean GitHub with reproducible code, a Zotero library with 80+ annotated papers, and a targeted list of 8–10 professors whose research aligns with yours. This profile makes you competitive for any MS/PhD program globally.</span>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .page -->
+
+<script>
+// ── STORAGE KEY
+const STORAGE_KEY = 'research_roadmap_v1';
+
+// ── LOAD saved state
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch(e) { return {}; }
+}
+
+function saveState(state) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ── COUNT total checkboxes
+const allBoxes = document.querySelectorAll('.check-box');
+const total = allBoxes.length;
+document.getElementById('totalCount').textContent = total;
+
+// ── TOGGLE function
+function toggle(el) {
+  const state = loadState();
+  const id = getBoxId(el);
+  const isDone = el.classList.toggle('checked');
+  el.closest('tr').classList.toggle('done', isDone);
+  state[id] = isDone;
+  saveState(state);
+  updateProgress();
+}
+
+function getBoxId(el) {
+  // use step number as stable id
+  const row = el.closest('tr');
+  const stepEl = row.querySelector('.step-num');
+  return stepEl ? stepEl.textContent.trim() : Math.random();
+}
+
+// ── RESTORE state on load
+function restoreState() {
+  const state = loadState();
+  allBoxes.forEach(box => {
+    const id = getBoxId(box);
+    if (state[id]) {
+      box.classList.add('checked');
+      box.closest('tr').classList.add('done');
+    }
+  });
+  updateProgress();
+}
+
+// ── UPDATE PROGRESS BAR
+function updateProgress() {
+  const done = document.querySelectorAll('.check-box.checked').length;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = done + ' / ' + total + ' completed';
+}
+
+// ── FILTER by phase
+function filterPhase(phase, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.phase-block').forEach(block => {
+    if (phase === 'all' || block.dataset.phase === phase) {
+      block.style.display = 'block';
+    } else {
+      block.style.display = 'none';
+    }
+  });
+}
+
+// ── INIT
+restoreState();
+</script>
+</body>
+</html>
